@@ -3,7 +3,6 @@ pipeline {
 
      tools {
         jdk "jdk21"
-        sonarQubeScanner "SonarQube Scanner"
      }
      environment {
         DOCKER_HUB_USER = "devopsaditya123"
@@ -19,17 +18,21 @@ pipeline {
                 checkout scm
             }
         }
-        stage("2 SonarQube Analysis"){
+        stage("2. SonarQube Analysis") {
             steps {
-                withSonarQubeEnv("SonarQube"){
-                 sh """
-                 sonar-scanner \
-                 -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
-                 -Dsonar.sources=. \
-                 -Dsonar.projectName=python-app 
-                 """
+                script {
+                    // Jenkins Tools se scanner ka path le rahe hain
+                    def scannerHome = tool 'SonarQube Scanner'
+                    
+                    withSonarQubeEnv("SonarQube") {
+                        sh """
+                            ${scannerHome}/bin/sonar-scanner \
+                            -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
+                            -Dsonar.sources=. \
+                            -Dsonar.projectName=python-app 
+                        """
+                    }
                 }
-                
             }
         }
 
