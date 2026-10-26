@@ -1,0 +1,13 @@
+1. Checkout → Git se code aata hai (branch ke hisaab se)
+        ↓
+2. SonarQube Analysis → Code quality check hota hai
+        ↓
+3. Quality Gate → SonarQube se "pass" ka wait karta hai (fail ho to pipeline ruk jaati hai)
+        ↓
+4. Docker Build → Python app ka image banta hai
+        ↓
+5. Docker Push → Image Docker Hub pe chala jaata hai (tag = git commit SHA)
+        ↓
+6. Kustomize Update → Manifest mein naya image tag set hota hai (dev ya prod overlay)
+        ↓
+7. Deploy to EKS → kubectl apply -k se cluster pe deploy hota hai
