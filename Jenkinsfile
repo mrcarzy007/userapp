@@ -3,7 +3,7 @@ pipeline {
 
      tools {
         jdk "jdk21"
-        sonarRunner "SonarQube Scanner"
+        sonarQube "SonarQube Scanner"
      }
      environment {
         DOCKER_HUB_USER = "devopsaditya123"
