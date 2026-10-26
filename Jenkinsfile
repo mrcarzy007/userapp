@@ -3,7 +3,7 @@ pipeline {
 
      tools {
         jdk "jdk21"
-        sonarscanner "SonarQube Scanner"
+        sonarScanner "SonarQube Scanner"
      }
      environment {
         DOCKER_HUB_USER = "devopsaditya123"
@@ -36,7 +36,7 @@ pipeline {
         stage("3 Quality Gate"){
             steps{
                 echo "Waiting for SonarQube Quality Check"
-                timeout(time: 5 , unit: "minutes"){
+                timeout(time: 5 , unit: "Minutes"){
                     waitForQualityGate abortPipeline : true
                 }
             }
