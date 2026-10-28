@@ -63,9 +63,7 @@ pipeline {
             }
         }
 
-        // ================= CD PART START =================
-
-        stage("6 Deploy to DEV") {
+     stage("6 Deploy to DEV") {
             when {
                 anyOf {
                     branch 'develop'
@@ -75,10 +73,8 @@ pipeline {
             steps {
                 echo "Deploying ${IMAGE_TAG} to DEV environment..."
                 dir('k8s/overlays/dev') {
-                    // Kustomize se image tag set karna
                     sh "kustomize edit set image ${IMAGE_NAME}=${IMAGE_NAME}:${IMAGE_TAG}"
                 }
-                // EKS pe apply karna
                 sh "kubectl apply -k k8s/overlays/dev"
             }
         }
@@ -91,7 +87,6 @@ pipeline {
                 }
             }
             steps {
-                // Manual approval step
                 input message: 'Do you want to deploy to PRODUCTION?', ok: 'Deploy to Prod'
                 
                 echo "Deploying ${IMAGE_TAG} to PROD environment..."
@@ -101,8 +96,7 @@ pipeline {
                 sh "kubectl apply -k k8s/overlays/prod"
             }
         }
-        
-        // ================= CD PART END =================
+  
     }
 
     post {
